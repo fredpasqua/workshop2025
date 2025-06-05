@@ -17,9 +17,10 @@ body {
     border: 2px solid #ccc;
     border-radius: 8px;
     padding: 24px;
-    width: 275px;
+    width: 350px;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
     line-height: 1.5;
+    font-size: medium;
 }
 
 .card img {
@@ -45,7 +46,7 @@ body {
 }
 
 .card input[type="checkbox"] {
-    transform: scale(1.5);
+    transform: scale(2);
     display: block;
     margin: 10px auto 0;
 }
