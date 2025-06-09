@@ -139,7 +139,52 @@
       `;
 
             quoteOutput.innerHTML = quoteHTML;
-            downloadPDFBtn.style.display = "inline-block";
+            
+            //NEW FUNCTIONALITY
+            const clone = quoteOutput.cloneNode(true);
+            clone.style.width = "8.5"; // Ensure the cloned element is full width
+            clone.style.padding = "20px"; // Add padding for better appearance
+            clone.style.boxSizing = "border-box"; // Ensure padding is included in width
+            clone.style.backgroundColor = "#fff"; // Set background color for PDF
+            clone.style.fontSize = "14px"; // Set font size for consistency
+            clone.style.color = "#000"; // Set text color for PDF
+            clone.style.margin = "0"; // Remove margin for PDF
+            clone.style.border = "none"; // Remove border for PDF
+            clone.style.pageBreakAfter = "always"; // Ensure proper page breaks in PDF
+            clone.style.display = "block"; // Ensure it displays as a block element
+            clone.style.lineHeight = "1"; // Set line height for readability
+            clone.style.fontFamily = "Arial, sans-serif"; // Set font family for consistency
+            clone.style.textAlign = "left"; // Align text to the left for PDF
+            clone.style.borderCollapse = "collapse"; // Ensure table borders collapse for PDF
+            clone.style.boxShadow = "none"; // Remove any box shadow for PDF
+            clone.style.backgroundColor = "#fff"; // Set a light background color for PDF    
+            html2pdf()
+
+                .from(clone)
+                .set({
+                    margin: 0,
+                    filename: 'workshop_quote.pdf',
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'p' }
+                }).save('workshop_quote.pdf')
+                .then(() => {
+                    console.log("PDF generated successfully.");
+                })
+                .catch(err => {
+                    console.error("Error generating PDF:", err);
+                });
+
+
+   
+        // END NEW FUNCTION
+
+
+
+
+
+
+
+         //   downloadPDFBtn.style.display = "inline-block";
         });
 
         downloadPDFBtn.addEventListener("click", () => {
