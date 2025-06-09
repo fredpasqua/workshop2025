@@ -145,3 +145,27 @@ a {
     margin: 0 auto;
     height: 100%;
 }
+
+#teacher-info-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 500px;
+    align-items: center;
+    font-size: x-large;
+
+}
+#teacher-info-form input {
+    width: 50%;
+    height: 2em;
+    border: 1px black solid;
+    box-shadow: #afb6bee9;
+    border-radius: 3px;
+}
+
+#teacher-info-form button {
+    width: 50%;
+    background-color: rgb(0, 81, 255);
+    color: white;
+    font-size: larger;
+}
