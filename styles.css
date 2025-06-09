@@ -67,6 +67,7 @@ a {
 
 #generate-quote-btn,
 #download-pdf-btn {
+    
     margin-top: 20px;
     padding: 10px 20px;
     font-size:x-large;
@@ -75,10 +76,25 @@ a {
     color: white;
     border-radius: 5px;
     cursor: pointer;
-    width: 95vw;
+    width: 80vw;
     height: 100px;
     margin-left: auto !important;
     margin-right: auto !important;
+}
+.button-container {
+    position: fixed;
+        /* Positions the element relative to the viewport. */
+        bottom: 0;
+        /* Positions the element at the bottom edge of the viewport. */
+        width: 100%;
+        /* Makes the button span the full width of the screen. */
+        /* Other styling for your button (background color, text, etc.) */
+        background-color: rgb(252, 252, 252);
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        /* Add more styles as needed */
+
 }
 
 #download-pdf-btn {
