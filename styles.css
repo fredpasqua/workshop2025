@@ -113,11 +113,13 @@ a {
     max-width: 8.5in;
 }
 
-.quote-header {
+.quote-header{
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
+
 
 .quote-header img {
     width: 100px;
