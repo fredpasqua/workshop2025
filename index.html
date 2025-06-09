@@ -42,9 +42,13 @@
               <div><strong>Publisher:</strong> ${item["Publisher"]}</div>
               <div class="itemid"><strong>Item #:</strong> ${item["Item #"]}</div>
               <div class="price-original">Retail: $${Number(item.Retail).toFixed(2)}</div>
-              <div class="price-discounted">Your Price: $${Number(item.Discounted).toFixed(2)}</div>
+              <div class="price-discounted">Your Price: $${Number(item.Discounted).toFixed(2)}<input type="checkbox" class="checkbox" />
+                
+              </div>
+              
+            
               <a href="${item.Link}" target="_blank">View Title</a>
-              <input type="checkbox" />
+             
             `;
 
                         cardContainer.appendChild(card);
