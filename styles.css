@@ -154,7 +154,7 @@ a {}
 #teacher-info-form {
     display: flex;
     flex-direction: column;
-    font-size: large
+    font-size: large;
     gap: 10px;
 }
 
