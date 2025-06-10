@@ -22,7 +22,7 @@
             <label for="teacher-name">Teacher Name</label><br>
             <input type="text" id="teacher-name" name="teacher-name" required><br><br>
             <label for="district-name">District</label><br>
-            <input type="text" id="school-name" name="school-name" required><br><br>
+            <input type="text" id="district-name" name="district-name" required><br><br>
             <label for="school-name">School</label><br>
             <input type="text" id="school-name" name="school-name" required><br><br>
             <label for="email">Email</label><br>
@@ -110,8 +110,8 @@
           </div>
       
           <div class="school-info">
-                <p>Quote Prepared For:</p>
                 <strong>Teacher:</strong> ${teacherData.name}<br>
+                <strong>District:</strong> ${teacherData.district}<br>
                 <strong>School:</strong> ${teacherData.school}<br>
                 <strong>Email:</strong> ${teacherData.email}
             </div>
@@ -266,6 +266,7 @@
                 teacherData = {
                     name: document.getElementById("teacher-name").value.trim(),
                     school: document.getElementById("school-name").value.trim(),
+                    district: document.getElementById("district-name").value.trim(),
                     email: document.getElementById("email").value.trim()
                 };
                 modal.style.display = "none";
