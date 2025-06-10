@@ -189,12 +189,7 @@
             html2pdf()
 
                 .from(clone)
-                .set({
-                    margin: 0,
-                    filename: 'workshop_quote.pdf',
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'p' }
-                }).save('workshop_quote.pdf')
+             .save('sheetmusic_quote.pdf')
                 .then(() => {
                     console.log("PDF generated successfully.");
                 })
@@ -202,7 +197,12 @@
                     console.error("Error generating PDF:", err);
                 });
 
-
+            // .set({
+            //     margin: 0,
+            //     filename: 'workshop_quote.pdf',
+            //     html2canvas: { scale: 2 },
+            //     jsPDF: { unit: 'in', format: 'letter', orientation: 'p' }
+            // })
    
         // END NEW FUNCTION
 
