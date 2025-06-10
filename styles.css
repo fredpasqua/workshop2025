@@ -153,10 +153,10 @@ a {}
 
 #teacher-info-form {
     display: flex;
+    gap: 10px;
     flex-direction: column;
     font-size: large;
-
-    max-height: 80vh;
+    max-height: 100vh;
 }
 
 #teacher-info-form input {
