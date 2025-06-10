@@ -155,13 +155,14 @@ a {}
     display: flex;
     flex-direction: column;
     font-size: large;
-    gap: 10px;
+
+    max-height: 80vh;
 }
 
 #teacher-info-form input {
-    padding: 5px;
+
     width: 75vw;
-    height: 2em;
+    height: 28px;
     font-size: 22px;
     border: 1px black solid;
     box-shadow: #afb6bee9;
@@ -170,16 +171,19 @@ a {}
 
 #teacher-info-form button {
     padding: 10px;
-    width: 300px;
+    width: 75vw;
+    min-width: 200px;
     background-color: #007bff;
     color: white;
     font-size: larger;
     border-radius: 6px;
     align-self: center;
+    margin-top: -10px;
 }
 
 #teacher-info-form label {
     padding: 0px;
+    margin-bottom: -20px;
 
 
 }
