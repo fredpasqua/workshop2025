@@ -154,7 +154,7 @@ a {}
 #teacher-info-form {
     display: flex;
     flex-direction: column;
-    font-size: x-large;
+    font-size: large
     gap: 10px;
 }
 
@@ -179,6 +179,6 @@ a {}
 }
 #teacher-info-form label {
     padding: 0px;
-    margin-bottom: -15px;
+    
 
 }
