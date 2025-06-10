@@ -1,0 +1,73 @@
+/* modal.css */
+
+/* Modal Overlay */
+#info-form-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Modal Container */
+#info-form-modal>div {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+/* Header */
+#info-form-modal h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+/* Form Elements */
+#info-form-modal label {
+    font-size: 14px;
+    color: #333;
+    display: block;
+    margin-top: 10px;
+}
+
+#info-form-modal input[type="text"],
+#info-form-modal input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Submit Button */
+#info-form-modal button[type="submit"] {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#info-form-modal button[type="submit"]:hover {
+    background-color: #0056b3;
+}
