@@ -156,7 +156,7 @@ a {}
     gap: 10px;
     flex-direction: column;
     font-size: large;
-    max-height: 100vh;
+    max-height: 70vh;
 }
 
 #teacher-info-form input {
