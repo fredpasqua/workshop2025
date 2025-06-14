@@ -75,7 +75,8 @@ p {
 #generate-quote-btn,
 #download-pdf-btn {
 
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 30px;
     border: none;
     background-color: #007bff;
@@ -83,7 +84,7 @@ p {
     border-radius: 5px;
     cursor: pointer;
     width: 80vw;
-    height: 100px;
+    height: 90px;
     margin-left: auto !important;
     margin-right: auto !important;
 }
