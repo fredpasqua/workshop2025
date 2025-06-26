@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Workshop Music App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Workshop Music App</h1>
+
+    <div class="card-container" id="card-container"></div>
+
+    <button id="generate-quote-btn">Generate Quote</button>
+    <button id="download-pdf-btn">Download PDF</button>
+
+    <div id="quote-output" class="quote-box"></div>
+
+    <!-- Load and render cards from JSON -->
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            fetch("Workshop2025Titles.json")
+                .then(response => response.json())
+                .then(data => {
+                    const cardContainer = document.getElementById("card-container");
+
+                    data.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "card";
+
+                        card.innerHTML = `
+              <h5>${item.Title}</h5>
+              <div><em>${item.Composer}</em></div>
+              <div><strong>Publisher:</strong> ${item["Publisher"]}</div>
+              <div><strong>Item #:</strong> ${item["Item #"]}</div>
+              <div class="price-original">Retail: $${Number(item.Retail).toFixed(2)}</div>
+              <div class="price-discounted">Your Price: $${Number(item.Discounted).toFixed(2)}</div>
+              <a href="${item.Link}" target="_blank">View Title</a>
+              <input type="checkbox" />
+            `;
+
+                        cardContainer.appendChild(card);
+                    });
+                })
+                .catch(err => {
+                    console.error("Error loading JSON:", err);
+                    document.getElementById("card-container").innerHTML = "<p>Failed to load titles.</p>";
+                });
+        });
+        let logo="./NEMClogobw.jpg"
+    </script>
+
+    <!-- Quote and PDF logic -->
+    <script>
+        const generateQuoteBtn = document.getElementById("generate-quote-btn");
+        const downloadPDFBtn = document.getElementById("download-pdf-btn");
+        const quoteOutput = document.getElementById("quote-output");
+
+        generateQuoteBtn.addEventListener("click", () => {
+            const selectedCards = document.querySelectorAll(".card input[type='checkbox']:checked");
+            quoteOutput.innerHTML = "";
+            downloadPDFBtn.style.display = "none";
+
+            if (selectedCards.length === 0) {
+                alert("Please select at least one title to generate a quote.");
+                return;
+            }
+
+            let total = 0;
+            let quoteHTML = `
+        <div class="quote-header">
+          <img src="https://via.placeholder.com/100x100?text=Logo" alt="Company Logo" />
+          <div class="quote-info">
+            <strong>National Educational Music Co.</strong><br>
+            123 Music Lane<br>
+            Harmony, NJ 08000<br>
+            Phone: (800) 123-4567<br>
+            Salesperson: Jane Doe
+          </div>
+        </div>
+        <h3>Price Quote</h3>
+        <ul>
+      `;
+
+            selectedCards.forEach(card => {
+                const parent = card.closest(".card");
+                const title = parent.querySelector("h5")?.innerText || "Untitled";
+                const itemNumber = parent.querySelector("div:nth-child(4)")?.innerText.replace("Item #: ", "") || "N/A";
+                const priceText = parent.querySelector(".price-discounted")?.innerText || "$0";
+                const price = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+
+                if (!isNaN(price)) {
+                    total += price;
+                    quoteHTML += `<li>${title} (Item #: ${itemNumber}): $${price.toFixed(2)}</li>`;
+                }
+            });
+
+            quoteHTML += `
+        <li><strong>Shipping:</strong> $0.00</li>
+        <li><strong>Total:</strong> $${total.toFixed(2)}</li>
+        </ul>
+      `;
+
+            quoteOutput.innerHTML = quoteHTML;
+            downloadPDFBtn.style.display = "inline-block";
+
+            console.log("Quote Output Content:", quoteOutput.innerHTML);
+        });
+
+        downloadPDFBtn.addEventListener("click", () => {
+            const element = document.getElementById("quote-output");
+
+            // Check if the quote-output has content
+            if (!element || element.innerHTML.trim() === "") {
+                alert("No quote available to download. Please generate a quote first.");
+                return;
+            }
+
+            // Clone the element to ensure styles are applied
+            const clonedElement = element.cloneNode(true);
+
+            // Append the cloned element to the body (hidden) to ensure rendering
+            clonedElement.style.position = "absolute";
+            clonedElement.style.left = "-9999px";
+            document.body.appendChild(clonedElement);
+
+            // Generate the PDF
+            const opt = {
+                margin: 0.5,
+                filename: 'price-quote.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf()
+                .set(opt)
+                .from(clonedElement)
+                .save()
+                .then(() => {
+                    // Remove the cloned element after generating the PDF
+                    document.body.removeChild(clonedElement);
+                })
+                .catch(err => {
+                    console.error("Error generating PDF:", err);
+                    alert("An error occurred while generating the PDF. Please try again.");
+                });
+        });
+    </script>
+
+</body>
+
+</html>
