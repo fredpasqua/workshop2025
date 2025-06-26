@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Workshop Music App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <h1>Workshop Music App</h1>
+
+    <div class="card-container" id="card-container"></div>
+
+    <button id="generate-quote-btn">Generate Quote</button>
+    <button id="download-pdf-btn" style="display: none;">Download PDF</button>
+
+    <div id="quote-output" class="quote-box" style="margin-top: 30px;"></div>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            fetch("Workshop2025Titles.json")
+                .then(response => response.json())
+                .then(data => {
+                    const cardContainer = document.getElementById("card-container");
+
+                    data.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "card";
+
+                        card.innerHTML = `
+              <h5>${item.Title}</h5>
+              <div><em>${item.Composer}</em></div>
+              <div><strong>Publisher:</strong> ${item["Publisher"]}</div>
+              <div class="itemid"><strong>Item #:</strong> ${item["Item #"]}</div>
+              <div class="price-original">Retail: $${Number(item.Retail).toFixed(2)}</div>
+              <div class="price-discounted">Your Price: $${Number(item.Discounted).toFixed(2)}</div>
+              <a href="${item.Link}" target="_blank">View Title</a>
+              <input type="checkbox" />
+            `;
+
+                        cardContainer.appendChild(card);
+                    });
+                })
+                .catch(err => {
+                    console.error("Error loading JSON:", err);
+                    document.getElementById("card-container").innerHTML = "<p>Failed to load titles.</p>";
+                });
+        });
+
+        const generateQuoteBtn = document.getElementById("generate-quote-btn");
+        const downloadPDFBtn = document.getElementById("download-pdf-btn");
+        let quoteOutput = document.getElementById("quote-output");
+
+        generateQuoteBtn.addEventListener("click", () => {
+            const selectedCards = document.querySelectorAll(".card input[type='checkbox']:checked");
+            quoteOutput.innerHTML = "";
+            downloadPDFBtn.style.display = "none";
+
+            if (selectedCards.length === 0) {
+                alert("Please select at least one title to generate a quote.");
+                return;
+            }
+
+            let total = 0;
+            const today = new Date().toLocaleDateString();
+
+            let quoteHTML = `
+      <div class="quote-header" style="display: block; margin-bottom: 20px;">
+         
+          <div class="quote-info" style="font-size: 14px;">
+              <strong>National Educational Music Co.</strong><br>
+              1110 Centennial Ave, STE2<br>
+              Piscataway, NJ 08854<br>
+              Phone: (800) 526-4593<br>
+              Salesperson: Summerworkshop2025
+          </div>
+      </div>
+
+      <h2 style="margin-bottom: 5px;">Price Quote</h2>
+      <div style="margin-bottom: 20px; font-size: 14px;">Date: ${today}</div>
+
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <thead>
+              <tr>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Title</th>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Item #</th>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: right;">Price</th>
+              </tr>
+          </thead>
+          <tbody>
+      `;
+
+            selectedCards.forEach(card => {
+                const parent = card.closest(".card");
+                const title = parent.querySelector("h5")?.innerText || "Untitled";
+                const priceText = parent.querySelector(".price-discounted")?.innerText || "$0";
+                const price = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+                const itemID = parent.querySelector(".itemid")?.innerText.replace("Item #:", "").trim() || "No ID";
+
+                if (!isNaN(price)) {
+                    total += price;
+                    quoteHTML += `
+          <tr>
+              <td style="border: 1px solid #ccc; padding: 8px;">${title}</td>
+              <td style="border: 1px solid #ccc; padding: 8px;">${itemID}</td>
+              <td style="border: 1px solid #ccc; padding: 8px; text-align: right;">$${price.toFixed(2)}</td>
+          </tr>`;
+                }
+            });
+
+            quoteHTML += `
+          <tr>
+              <td colspan="2" style="border: 1px solid #ccc; padding: 8px; text-align: right;"><strong>Shipping</strong></td>
+              <td style="border: 1px solid #ccc; padding: 8px; text-align: right;">$0.00</td>
+          </tr>
+          <tr>
+              <td colspan="2" style="border: 1px solid #ccc; padding: 8px; text-align: right;"><strong>Total</strong></td>
+              <td style="border: 1px solid #ccc; padding: 8px; text-align: right;"><strong>$${total.toFixed(2)}</strong></td>
+          </tr>
+          </tbody>
+      </table>
+      `;
+
+            quoteOutput.innerHTML = quoteHTML;
+            downloadPDFBtn.style.display = "inline-block";
+        });
+
+        downloadPDFBtn.addEventListener("click", () => {
+                const element = document.getElementsById("quote-output");
+
+                // Clone the node and append it temporarily to body (to avoid rendering issues)
+                const clone = element.cloneNode(true);
+                clone.style.position = "absolute";
+                clone.style.top = "-9999px";
+                document.body.appendChild(clone);
+
+                html2pdf()
+                    .set({
+                        margin: 0.5,
+                        filename: 'price-quote.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2 },
+                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    })
+                    .from(clone)
+                    .save()
+                    .then(() => {
+                        document.body.removeChild(clone); // Clean up
+                    });
+            });
+
+    </script>
+</body>
+
+</html>
